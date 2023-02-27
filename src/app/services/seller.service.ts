@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http'
 import { login, signUp } from '../data-type';
 import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
+import baseUrl from './helper';
 @Injectable({
   providedIn: 'root'
 })
@@ -12,7 +13,7 @@ export class SellerService {
 
   constructor(private http:HttpClient, private router:Router) { }
   userSignUp(data:signUp){
-    this.http.post('http://localhost:3000/seller',
+    this.http.post(`${baseUrl}/seller`,
     data,
     {observe:'response'}).subscribe((result)=>{
       console.warn(result)
@@ -29,7 +30,7 @@ export class SellerService {
     }
   }
   userLogin(data:login){
-   this.http.get(`http://localhost:3000/seller?email=${data.email}&password=${data.password}`,
+   this.http.get(`${baseUrl}/seller?email=${data.email}&password=${data.password}`,
    {observe:'response'}).subscribe((result:any)=>{
     console.warn(result)
     if(result && result.body && result.body.length===1){

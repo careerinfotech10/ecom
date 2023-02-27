@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { login, signUp } from '../data-type';
+import baseUrl from './helper';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class UserService {
 invalidUserAuth= new EventEmitter<boolean>(false)
   constructor(private http: HttpClient, private router:Router) { }
   userSignUp(user:signUp){
-   this.http.post('http://localhost:3000/users',user,{observe:'response'})
+   this.http.post(`${baseUrl}/users`,user,{observe:'response'})
    .subscribe((result)=>{
     if(result){
       localStorage.setItem('user',JSON.stringify(result.body));
@@ -21,7 +22,7 @@ invalidUserAuth= new EventEmitter<boolean>(false)
     
   }
   userLogin(data:login){
-    this.http.get<signUp[]>(`http://localhost:3000/users?email=${data.email}&password=${data.password}`,
+    this.http.get<signUp[]>(`${baseUrl}/users?email=${data.email}&password=${data.password}`,
     {observe:'response'}
     ).subscribe((result)=>{
       if(result && result.body?.length){
